@@ -41,7 +41,7 @@
     "jest": "^24.3.1",
     "jest-junit": "^10.0.0",
     "prettier": "1.18.2",
-    "taiko": "^1.0.0",
+    "taiko": "^1.3.4",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-prettier": "^3.0.1",
     "pretty-quick": "^2.0.1",

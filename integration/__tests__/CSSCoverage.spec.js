@@ -1,6 +1,7 @@
-import { openBrowser, goto, closeBrowser, diagnostics } from 'taiko';
+import { closeBrowser, diagnostics, goto, openBrowser } from 'taiko';
+import { location } from './integration-helper';
+
 const { startCssTracing, stopCssTracing, prettyCSS } = diagnostics;
-import path from 'path';
 
 jest.setTimeout(30000);
 beforeEach(async () => {
@@ -12,9 +13,8 @@ afterEach(async () => {
 });
 
 test('Should report css coverage', async () => {
-  let filePath = path.resolve('./integration/__tests__/data/simple.html');
   await startCssTracing();
-  await goto(path.join('file://', filePath));
+  await goto(location('./integration/__tests__/data/simple.html'));
   const coverage = await stopCssTracing();
   const responseData = {
     url: expect.any(String),
@@ -30,9 +30,9 @@ test('Should report css coverage', async () => {
 });
 
 test('Should report multiple css coberage', async () => {
-  let filePath = path.resolve('./integration/__tests__/data/multiple.html');
   await startCssTracing();
-  await goto(path.join('file://', filePath));
+  await goto(location('./integration/__tests__/data/multiple.html'));
+
   const coverage = await stopCssTracing();
   await prettyCSS(coverage);
   expect(coverage.length).toBe(3);

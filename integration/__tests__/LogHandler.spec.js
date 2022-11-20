@@ -1,6 +1,6 @@
 jest.mock('../../src/helpers');
 import { closeBrowser, diagnostics, goto, openBrowser } from 'taiko';
-import path from 'path';
+import { location } from './integration-helper';
 
 const { logConsoleInfo } = diagnostics;
 
@@ -14,19 +14,17 @@ afterEach(async () => {
 });
 
 test('Should print unhandled exception message into console', async () => {
-  let filePath = path.resolve(
-    './integration/__tests__/data/unhandledException.html'
-  );
   const error = [];
   let emitter = await logConsoleInfo();
   emitter.on('pageError', e => {
     error.push(e);
   });
 
-  await goto(path.join('file://', filePath));
+  let url = location('./integration/__tests__/data/unhandledException.html');
+  await goto(url);
   let expectedMessage = `Error: Test unhandled exception
-    at throwsException (file://${filePath}:4:19)
-    at file://${filePath}:6:9`;
+    at throwsException (${url}:4:19)
+    at ${url}:6:9`;
   expect(error[0].exception.description).toEqual(expectedMessage);
 });
 
@@ -54,8 +52,7 @@ test('Should print console.log', async () => {
   emitter.on('consoleLog', log => {
     consoleEvents.push(log);
   });
-  let filePath = path.resolve('./integration/__tests__/data/console.html');
-  await goto(path.join('file://', filePath));
+  await goto(location('./integration/__tests__/data/console.html'));
   const responseData = {
     type: expect.any(String),
     value: expect.any(String),
