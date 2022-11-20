@@ -58,7 +58,7 @@ export default class FirstInteractiveAudit {
     // task from 15.5-16s, we need that later task to be clustered with the first so we can properly
     // identify that main thread isn't quiet.
     const clusteringWindowEnd = windowEnd + MIN_TASK_CLUSTER_PADDING;
-    const isInClusteringWindow = task => task.start < clusteringWindowEnd;
+    const isInClusteringWindow = (task) => task.start < clusteringWindowEnd;
     for (let i = startIndex; i < tasks.length; i++) {
       if (!isInClusteringWindow(tasks[i])) {
         break;
@@ -79,14 +79,14 @@ export default class FirstInteractiveAudit {
     return (
       clusters
         // add some useful information about the cluster
-        .map(tasks => {
+        .map((tasks) => {
           const start = tasks[0].start;
           const end = tasks[tasks.length - 1].end;
           const duration = end - start;
           return { start, end, duration };
         })
         // filter out clusters that started after the window because of our clusteringWindowEnd
-        .filter(cluster => cluster.start < windowEnd)
+        .filter((cluster) => cluster.start < windowEnd)
     );
   }
 
@@ -109,10 +109,10 @@ export default class FirstInteractiveAudit {
       return FMP;
     }
 
-    const isTooCloseToFMP = cluster =>
+    const isTooCloseToFMP = (cluster) =>
       cluster.start < FMP + MIN_TASK_CLUSTER_FMP_DISTANCE;
-    const isTooLong = cluster => cluster.duration > MAX_TASK_CLUSTER_DURATION;
-    const isBadCluster = cluster =>
+    const isTooLong = (cluster) => cluster.duration > MAX_TASK_CLUSTER_DURATION;
+    const isBadCluster = (cluster) =>
       isTooCloseToFMP(cluster) || isTooLong(cluster);
 
     // FirstInteractiveAudit must start at the end of a long task, consider each long task and
@@ -169,7 +169,7 @@ export default class FirstInteractiveAudit {
     const longTasksAfterFMP = TraceProcessor.getMainThreadTopLevelEvents(
       traceOfTab,
       FMP
-    ).filter(evt => evt.duration >= LONG_TASK_THRESHOLD);
+    ).filter((evt) => evt.duration >= LONG_TASK_THRESHOLD);
     const firstInteractive = FirstInteractiveAudit.findQuietWindow(
       FMP,
       traceEnd,
@@ -179,7 +179,7 @@ export default class FirstInteractiveAudit {
     const valueInMs = Math.max(firstInteractive, DCL);
     return {
       timeInMs: valueInMs,
-      timestamp: valueInMs * 1000 + navStart
+      timestamp: valueInMs * 1000 + navStart,
     };
   }
 }

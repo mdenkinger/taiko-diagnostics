@@ -14,11 +14,11 @@ beforeEach(() => {
   exceptionThrown = jest.fn();
   consoleAPICalled = jest.fn();
   emitter = {
-    emitObject: jest.fn()
+    emitObject: jest.fn(),
   };
   runTime = {
     exceptionThrown: exceptionThrown,
-    consoleAPICalled: consoleAPICalled
+    consoleAPICalled: consoleAPICalled,
   };
   logHandler = new LogHandler(entryAdded, loadEventFired, runTime);
   logHandler.logEntry(emitter);

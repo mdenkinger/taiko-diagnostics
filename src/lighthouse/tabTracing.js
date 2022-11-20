@@ -66,7 +66,7 @@ export default class TraceOfTab {
   static compute(trace) {
     // Parse the trace for our key events and sort them by timestamp. Note: sort
     // *must* be stable to keep events correctly nested.
-    const keyEvents = TraceOfTab.filteredStableSort(trace.traceEvents, e => {
+    const keyEvents = TraceOfTab.filteredStableSort(trace.traceEvents, (e) => {
       return (
         e.cat.includes('blink.user_timing') ||
         e.cat.includes('loading') ||
@@ -80,7 +80,7 @@ export default class TraceOfTab {
 
     // Filter to just events matching the frame ID for sanity
     const frameEvents = keyEvents.filter(
-      e => e.args.frame === mainFrameIds.frameId
+      (e) => e.args.frame === mainFrameIds.frameId
     );
 
     // Our navStart will be the last frame navigation in the trace
@@ -91,17 +91,17 @@ export default class TraceOfTab {
 
     // Find our first paint of this frame
     const firstPaint = frameEvents.find(
-      e => e.name === 'firstPaint' && e.ts > navigationStart.ts
+      (e) => e.name === 'firstPaint' && e.ts > navigationStart.ts
     );
 
     // FCP will follow at/after the FP. Used in so many places we require it.
     const firstContentfulPaint = frameEvents.find(
-      e => e.name === 'firstContentfulPaint' && e.ts > navigationStart.ts
+      (e) => e.name === 'firstContentfulPaint' && e.ts > navigationStart.ts
     );
 
     // fMP will follow at/after the FP
     let firstMeaningfulPaint = frameEvents.find(
-      e => e.name === 'firstMeaningfulPaint' && e.ts > navigationStart.ts
+      (e) => e.name === 'firstMeaningfulPaint' && e.ts > navigationStart.ts
     );
     let fmpFellBack = false;
 
@@ -115,7 +115,7 @@ export default class TraceOfTab {
       log.info(
         `No firstMeaningfulPaint found, falling back to last ${fmpCand}`
       );
-      const lastCandidate = frameEvents.filter(e => e.name === fmpCand).pop();
+      const lastCandidate = frameEvents.filter((e) => e.name === fmpCand).pop();
       if (!lastCandidate) {
         log.info('No `firstMeaningfulPaintCandidate` events found in trace');
       }
@@ -123,21 +123,21 @@ export default class TraceOfTab {
     }
 
     const load = frameEvents.find(
-      e => e.name === 'loadEventEnd' && e.ts > navigationStart.ts
+      (e) => e.name === 'loadEventEnd' && e.ts > navigationStart.ts
     );
     const domContentLoaded = frameEvents.find(
-      e => e.name === 'domContentLoadedEventEnd' && e.ts > navigationStart.ts
+      (e) => e.name === 'domContentLoadedEventEnd' && e.ts > navigationStart.ts
     );
 
     // subset all trace events to just our tab's process (incl threads other than main)
     // stable-sort events to keep them correctly nested.
     const processEvents = TraceOfTab.filteredStableSort(
       trace.traceEvents,
-      e => e.pid === mainFrameIds.pid
+      (e) => e.pid === mainFrameIds.pid
     );
 
     const mainThreadEvents = processEvents.filter(
-      e => e.tid === mainFrameIds.tid
+      (e) => e.tid === mainFrameIds.tid
     );
 
     // traceEnd must exist since at least navigationStart event was verified as existing.
@@ -147,7 +147,7 @@ export default class TraceOfTab {
     const fakeEndOfTraceEvt = { ts: traceEnd.ts + (traceEnd.dur || 0) };
 
     /** @param {{ts: number}=} event */
-    const getTimestamp = event => event && event.ts;
+    const getTimestamp = (event) => event && event.ts;
     /** @type {LH.Artifacts.TraceTimes} */
     const timestamps = {
       navigationStart: navigationStart.ts,
@@ -158,13 +158,14 @@ export default class TraceOfTab {
       firstMeaningfulPaint: getTimestamp(firstMeaningfulPaint),
       traceEnd: fakeEndOfTraceEvt.ts,
       load: getTimestamp(load),
-      domContentLoaded: getTimestamp(domContentLoaded)
+      domContentLoaded: getTimestamp(domContentLoaded),
     };
 
     /** @param {number} ts */
-    const getTiming = ts => (ts - navigationStart.ts) / 1000;
+    const getTiming = (ts) => (ts - navigationStart.ts) / 1000;
     /** @param {number=} ts */
-    const maybeGetTiming = ts => (ts === undefined ? undefined : getTiming(ts));
+    const maybeGetTiming = (ts) =>
+      ts === undefined ? undefined : getTiming(ts);
     /** @type {LH.Artifacts.TraceTimes} */
     const timings = {
       navigationStart: 0,
@@ -175,7 +176,7 @@ export default class TraceOfTab {
       firstMeaningfulPaint: maybeGetTiming(timestamps.firstMeaningfulPaint),
       traceEnd: getTiming(timestamps.traceEnd),
       load: maybeGetTiming(timestamps.load),
-      domContentLoaded: maybeGetTiming(timestamps.domContentLoaded)
+      domContentLoaded: maybeGetTiming(timestamps.domContentLoaded),
     };
 
     return {
@@ -190,7 +191,7 @@ export default class TraceOfTab {
       firstMeaningfulPaintEvt: firstMeaningfulPaint,
       loadEvt: load,
       domContentLoadedEvt: domContentLoaded,
-      fmpFellBack
+      fmpFellBack,
     };
   }
 }

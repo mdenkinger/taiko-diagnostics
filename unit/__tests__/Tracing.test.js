@@ -7,8 +7,8 @@ test('Start Tracing', async () => {
   const mockedTaiko = {
     client: jest.fn(() => ({
       Tracing: { start: mockedTracingStart },
-      IO: { read: mockedTracingIO }
-    }))
+      IO: { read: mockedTracingIO },
+    })),
   };
   let tracing = new TracingHandler(
     mockedTaiko.client().Tracing,
@@ -25,8 +25,8 @@ test('End tracing throws if not tracing', async () => {
   const mockedTaiko = {
     client: jest.fn(() => ({
       Tracing: { start: mockedTracingStart },
-      IO: { read: mockedTracingIO }
-    }))
+      IO: { read: mockedTracingIO },
+    })),
   };
   let tracing = new TracingHandler(
     mockedTaiko.client().Tracing,
@@ -47,8 +47,8 @@ test('getTracingLogs', async () => {
   const mockedTaiko = {
     client: jest.fn(() => ({
       Tracing: { start: mockedTracingStart },
-      IO: { read: mockedTracingIO }
-    }))
+      IO: { read: mockedTracingIO },
+    })),
   };
   let tracing = new TracingHandler(
     mockedTaiko.client().Tracing,
@@ -64,8 +64,8 @@ test('get speed index', async () => {
   const mockedTaiko = {
     client: jest.fn(() => ({
       Tracing: { start: mockedTracingStart },
-      IO: { read: mockedTracingIO }
-    }))
+      IO: { read: mockedTracingIO },
+    })),
   };
   let tracing = new TracingHandler(
     mockedTaiko.client().Tracing,
@@ -75,7 +75,7 @@ test('get speed index', async () => {
   const speedIndex = await tracing.getSpeedIndex();
   expect(speedIndex).toEqual({
     speedIndex: 2614.742680014968,
-    perceptualSpeedIndex: 2606.6120281404724
+    perceptualSpeedIndex: 2606.6120281404724,
   });
 });
 
@@ -85,8 +85,8 @@ test('get performance metric', async () => {
   const mockedTaiko = {
     client: jest.fn(() => ({
       Tracing: { start: mockedTracingStart },
-      IO: { read: mockedTracingIO }
-    }))
+      IO: { read: mockedTracingIO },
+    })),
   };
   let tracing = new TracingHandler(
     mockedTaiko.client().Tracing,
@@ -100,6 +100,6 @@ test('get performance metric', async () => {
     firstMeaningfulPaint: 2715.476,
     domContentLoaded: 2616.842,
     timeToFirstInteractive: null,
-    load: 2832.174
+    load: 2832.174,
   });
 });

@@ -14,7 +14,7 @@ function logger(value) {
     ? log.info(JSON.stringify(value))
     : log.info(`-${value}`);
 }
-const sumRangeUsage = ranges => {
+const sumRangeUsage = (ranges) => {
   return ranges.reduce((total, range) => {
     return total + range.end - range.start - 1;
   }, 0);
@@ -37,7 +37,7 @@ async function formatCoverage(coverage) {
       usedBytesTotal,
       unusedBytesTotal,
       usedPercentage,
-      unusedPercentage
+      unusedPercentage,
     };
   });
   return cssCoverageDetails;
@@ -46,9 +46,9 @@ async function formatCoverage(coverage) {
 async function formatCoverageAsTable(coverage) {
   const table = new Table({
     head: ['Url', 'Type', 'TotalBytes', 'UsedBytesTotal', 'UsedPercentage'].map(
-      header => chalk.magenta.bold(header)
+      (header) => chalk.magenta.bold(header)
     ),
-    colAligns: ['left', 'left', 'left', 'left', 'left', 'left', 'left']
+    colAligns: ['left', 'left', 'left', 'left', 'left', 'left', 'left'],
   });
 
   coverage.forEach(
@@ -62,7 +62,7 @@ async function formatCoverageAsTable(coverage) {
         type,
         totalBytesFormatted,
         usedBytesFormatted,
-        progressBar(usedPercentage)
+        progressBar(usedPercentage),
       ]);
     }
   );

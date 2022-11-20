@@ -6,7 +6,7 @@ import TaikoDiagEmitter from './TaikoDiagEmitter';
 let tracingHandler;
 let cssHandler;
 let logHandler;
-let _taiko, _eventHandler, _descEventHandler;
+let _eventHandler, _descEventHandler;
 
 export function clientHandler(client) {
   const page = client.Page;
@@ -20,13 +20,12 @@ export function clientHandler(client) {
     page.enable(),
     network.enable(),
     log.enable(),
-    runtime.enable()
+    runtime.enable(),
   ]);
   logHandler = new LogHandler(log.entryAdded, page.loadEventFired, runtime);
 }
 
 export function init(taiko, eventHandler, descEventHandler) {
-  _taiko = taiko;
   _eventHandler = eventHandler;
   _descEventHandler = descEventHandler;
   _eventHandler.on('createdSession', clientHandler);

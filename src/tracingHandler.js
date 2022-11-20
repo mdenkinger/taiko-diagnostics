@@ -18,7 +18,7 @@ class TracingHandler {
     this.isTracing = true;
     return this._tracing.start({
       categories: categories.join(','),
-      transferMode: 'ReturnAsStream'
+      transferMode: 'ReturnAsStream',
     });
   }
 
@@ -31,8 +31,8 @@ class TracingHandler {
     this._tracing.end();
     this.isTracing = false;
     let fulfill;
-    this.traceEvents = new Promise(x => (fulfill = x));
-    await this._tracing.tracingComplete(async event => {
+    this.traceEvents = new Promise((x) => (fulfill = x));
+    await this._tracing.tracingComplete(async (event) => {
       await this._readIOStream(event.stream).then(fulfill);
     });
     return this.traceEvents;
@@ -68,7 +68,7 @@ class TracingHandler {
       firstMeaningfulPaint: traces.timings.firstMeaningfulPaint,
       domContentLoaded: traces.timings.domContentLoaded,
       timeToFirstInteractive: timeToFirstInteract,
-      load: traces.timings.load
+      load: traces.timings.load,
     };
   }
 

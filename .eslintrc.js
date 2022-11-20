@@ -3,21 +3,21 @@ module.exports = {
     'eslint:recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
-    'prettier'
+    'prettier',
   ],
   env: {
     node: true,
     es6: true,
-    jest: true
+    jest: true,
   },
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   parserOptions: {
     ecmaVersion: 2016,
-    sourceType: 'module'
+    sourceType: 'module',
   },
   plugins: ['prettier'],
   rules: {
     'prettier/prettier': ['error', { singleQuote: true }],
-    quotes: ['error', 'single']
-  }
+    quotes: ['error', 'single'],
+  },
 };

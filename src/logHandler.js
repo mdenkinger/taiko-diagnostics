@@ -8,24 +8,24 @@ class LogHandler {
   logEntry(emitter) {
     this._entryAdded(({ entry }) => {
       emitter.emitObject('logEntry', {
-        ...entry
+        ...entry,
       });
     });
 
-    this._runTime.consoleAPICalled(params => {
+    this._runTime.consoleAPICalled((params) => {
       const [{ value }] = params.args;
       const [{ url }] = params.stackTrace.callFrames;
       emitter.emitObject('consoleLog', {
         type: params.type,
         value,
         url,
-        ...params
+        ...params,
       });
     });
 
     this._runTime.exceptionThrown(({ exceptionDetails }) => {
       emitter.emitObject('pageError', {
-        ...exceptionDetails
+        ...exceptionDetails,
       });
     });
     this._loadEventFired();

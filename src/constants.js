@@ -29,11 +29,11 @@ export const DEFAULT_TRACING_CATEGORIES = [
   'disabled-by-default-devtools.timeline.stack',
 
   // Include screenshots for frame viewer
-  'disabled-by-default-devtools.screenshot'
+  'disabled-by-default-devtools.screenshot',
 ];
 
 export const IGNORED_URLS = [
   'data:,', // empty pages
   'about:', // new tabs
-  'chrome-extension://' // all chrome extensions
+  'chrome-extension://', // all chrome extensions
 ];

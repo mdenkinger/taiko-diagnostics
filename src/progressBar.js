@@ -9,15 +9,15 @@ const defaultOptions = {
   barChar: defaultBarChar,
   barSize: defaultBarSize,
   barColor: usedCss,
-  barBgColor: unusedCss
+  barBgColor: unusedCss,
 };
 
 const fillBarPart = ({ size, fillWith, fillWithColor }) =>
   new Array(size).join(fillWithColor(fillWith));
 
-const progressBar = value => {
+const progressBar = (value) => {
   const { barChar, barSize, barColor, barBgColor } = {
-    ...defaultOptions
+    ...defaultOptions,
   };
 
   const valueBarSize = Number(((value * barSize) / 100).toFixed(0));
@@ -26,12 +26,12 @@ const progressBar = value => {
   const valueBar = fillBarPart({
     size: valueBarSize,
     fillWith: barChar,
-    fillWithColor: barColor
+    fillWithColor: barColor,
   });
   const bgBar = fillBarPart({
     size: bgBarSize,
     fillWith: barChar,
-    fillWithColor: barBgColor
+    fillWithColor: barBgColor,
   });
 
   return `${valueBar}${bgBar}`;

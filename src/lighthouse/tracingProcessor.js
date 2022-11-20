@@ -111,7 +111,7 @@ export default class TraceProcessor {
         percentile,
         time:
           Math.max(0, (percentileTime - completedTime) / remainingCount) +
-          BASE_RESPONSE_LATENCY
+          BASE_RESPONSE_LATENCY,
       });
     }
 
@@ -191,7 +191,7 @@ export default class TraceProcessor {
 
     return {
       durations,
-      clippedLength
+      clippedLength,
     };
   }
 
@@ -221,7 +221,7 @@ export default class TraceProcessor {
       topLevelEvents.push({
         start,
         end,
-        duration: event.dur / 1000
+        duration: event.dur / 1000,
       });
     }
 
@@ -235,7 +235,7 @@ export default class TraceProcessor {
   static findMainFrameIds(events) {
     // Prefer the newer TracingStartedInBrowser event first, if it exists
     const startedInBrowserEvt = events.find(
-      e => e.name === 'TracingStartedInBrowser'
+      (e) => e.name === 'TracingStartedInBrowser'
     );
     if (
       startedInBrowserEvt &&
@@ -243,13 +243,13 @@ export default class TraceProcessor {
       startedInBrowserEvt.args.data.frames
     ) {
       const mainFrame = startedInBrowserEvt.args.data.frames.find(
-        frame => !frame.parent
+        (frame) => !frame.parent
       );
       const frameId = mainFrame && mainFrame.frame;
       const pid = mainFrame && mainFrame.processId;
 
       const threadNameEvt = events.find(
-        e =>
+        (e) =>
           /**
            * ==> MODIFICATION TO LIGHTHOUSE <==
            * we have to ignore the pid check as this doesn't work with Chrome v70. The process
@@ -270,7 +270,7 @@ export default class TraceProcessor {
         return {
           pid,
           tid,
-          frameId
+          frameId,
         };
       }
     }
@@ -279,7 +279,7 @@ export default class TraceProcessor {
     // The first TracingStartedInPage in the trace is definitely our renderer thread of interest
     // Beware: the tracingStartedInPage event can appear slightly after a navigationStart
     const startedInPageEvt = events.find(
-      e => e.name === 'TracingStartedInPage'
+      (e) => e.name === 'TracingStartedInPage'
     );
     if (
       startedInPageEvt &&

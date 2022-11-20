@@ -23,7 +23,7 @@ test('Should report css coverage', async () => {
     usedBytesTotal: 20,
     unusedBytesTotal: 22,
     usedPercentage: 47.61904761904762,
-    unusedPercentage: 52.38095238095238
+    unusedPercentage: 52.38095238095238,
   };
   expect(coverage[0]).toEqual(responseData);
   expect(coverage.length).toBe(1);

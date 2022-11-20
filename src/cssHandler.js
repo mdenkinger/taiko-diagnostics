@@ -15,15 +15,15 @@ class CSSCoverage {
 
   async getStyleSheetText(header) {
     return await this.css.getStyleSheetText({
-      styleSheetId: header.styleSheetId
+      styleSheetId: header.styleSheetId,
     });
   }
   async startCssTracking() {
     await this.css.startRuleUsageTracking();
     this._enabled = true;
-    await this.css.styleSheetAdded(event => {
+    await this.css.styleSheetAdded((event) => {
       const header = event.header;
-      this.getStyleSheetText(header).then(response => {
+      this.getStyleSheetText(header).then((response) => {
         this._stylesheetURLs.set(header.styleSheetId, header.sourceURL);
         this._stylesheetSources.set(header.styleSheetId, response.text);
       });
@@ -75,7 +75,7 @@ class CSSCoverage {
       else hitCountStack.pop();
     }
     // Filter out empty ranges.
-    return results.filter(range => range.end - range.start > 1);
+    return results.filter((range) => range.end - range.start > 1);
   }
 
   async stopCssTracking() {
@@ -93,7 +93,7 @@ class CSSCoverage {
       ranges.push({
         startOffset: entry.startOffset,
         endOffset: entry.endOffset,
-        count: entry.used ? 1 : 0
+        count: entry.used ? 1 : 0,
       });
     }
 
@@ -107,10 +107,10 @@ class CSSCoverage {
       cssCoverage.push({ url, ranges, text });
     }
     const coverageAfter = [
-      ...cssCoverage.map(results => ({
+      ...cssCoverage.map((results) => ({
         ...results,
-        type: 'CSS'
-      }))
+        type: 'CSS',
+      })),
     ];
     const result = await formatCoverage(coverageAfter);
     return result;

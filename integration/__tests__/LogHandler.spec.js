@@ -16,7 +16,7 @@ afterEach(async () => {
 test('Should print unhandled exception message into console', async () => {
   const error = [];
   let emitter = await logConsoleInfo();
-  emitter.on('pageError', e => {
+  emitter.on('pageError', (e) => {
     error.push(e);
   });
 
@@ -31,7 +31,7 @@ test('Should print unhandled exception message into console', async () => {
 test('Should print error message into console', async () => {
   const logEntry = [];
   const emitter = await logConsoleInfo();
-  emitter.on('logEntry', log => {
+  emitter.on('logEntry', (log) => {
     logEntry.push(log);
   });
 
@@ -42,21 +42,21 @@ test('Should print error message into console', async () => {
     url: expect.any(String),
     networkRequestId: expect.any(String),
     text: expect.any(String),
-    timestamp: expect.any(Number)
+    timestamp: expect.any(Number),
   };
 
   expect(logEntry[0]).toMatchObject({
     ...responseData,
     source: 'network',
     level: 'error',
-    url: 'http://localhost:8080/'
+    url: 'http://localhost:8080/',
   });
 });
 
 test('Should print console.log', async () => {
   const consoleEvents = [];
   const emitter = await logConsoleInfo();
-  emitter.on('consoleLog', log => {
+  emitter.on('consoleLog', (log) => {
     consoleEvents.push(log);
   });
   await goto(location('./integration/__tests__/data/console.html'));
@@ -67,27 +67,27 @@ test('Should print console.log', async () => {
     args: expect.any(Array),
     executionContextId: expect.any(Number),
     stackTrace: expect.any(Object),
-    timestamp: expect.any(Number)
+    timestamp: expect.any(Number),
   };
 
   expect(consoleEvents[0]).toMatchObject({
     ...responseData,
     type: 'log',
-    value: 'Testing..'
+    value: 'Testing..',
   });
   expect(consoleEvents[1]).toMatchObject({
     ...responseData,
     type: 'info',
-    value: 'Debug..'
+    value: 'Debug..',
   });
   expect(consoleEvents[2]).toMatchObject({
     ...responseData,
     type: 'warning',
-    value: 'Warning..'
+    value: 'Warning..',
   });
   expect(consoleEvents[3]).toMatchObject({
     ...responseData,
     type: 'error',
-    value: 'Error..'
+    value: 'Error..',
   });
 });

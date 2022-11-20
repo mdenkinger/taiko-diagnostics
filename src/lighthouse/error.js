@@ -14,6 +14,7 @@
  */
 export const ErrorMessages = {
   didntCollectScreenshots:
+    // eslint-disable-next-line quotes
     "Chrome didn't collect any screenshots during the page load. Please make sure there is content visible on the page, and then try re-running Lighthouse. ({errorCode})",
   badTraceRecording:
     'Something went wrong with recording the trace over your page load. Please run Lighthouse again. ({errorCode})',
@@ -36,7 +37,7 @@ export const ErrorMessages = {
     'Waiting for DevTools protocol response has exceeded the allotted time. (Method: {protocolMethod})',
   dnsFailure: 'DNS servers could not resolve the provided domain.',
   pageLoadFailedHung:
-    'Lighthouse was unable to reliably load the URL you requested because the page stopped responding.'
+    'Lighthouse was unable to reliably load the URL you requested because the page stopped responding.',
 };
 
 /**
@@ -79,16 +80,16 @@ class LighthouseError extends Error {
   static fromProtocolMessage(method, protocolError) {
     // extract all errors with a regex pattern to match against.
     const protocolErrors = Object.keys(ERRORS)
-      .filter(k => ERRORS[k].pattern)
-      .map(k => ERRORS[k]);
+      .filter((k) => ERRORS[k].pattern)
+      .map((k) => ERRORS[k]);
     // if we find one, use the friendly LighthouseError definition
-    const matchedErrorDefinition = protocolErrors.find(e =>
+    const matchedErrorDefinition = protocolErrors.find((e) =>
       e.pattern.test(protocolError.message)
     );
     if (matchedErrorDefinition) {
       return new LighthouseError(matchedErrorDefinition, {
         protocolMethod: method,
-        protocolError: protocolError.message
+        protocolError: protocolError.message,
       });
     }
 
@@ -98,7 +99,7 @@ class LighthouseError extends Error {
     const error = new Error(`Protocol error ${errMsg}`);
     return Object.assign(error, {
       protocolMethod: method,
-      protocolError: protocolError.message
+      protocolError: protocolError.message,
     });
   }
 }
@@ -129,22 +130,22 @@ const ERRORS = {
   // Protocol internal failures
   TRACING_ALREADY_STARTED: {
     message: ErrorMessages.internalChromeError,
-    pattern: /Tracing.*started/
+    pattern: /Tracing.*started/,
   },
   PARSING_PROBLEM: {
     message: ErrorMessages.internalChromeError,
-    pattern: /Parsing problem/
+    pattern: /Parsing problem/,
   },
   READ_FAILED: {
     message: ErrorMessages.internalChromeError,
-    pattern: /Read failed/
+    pattern: /Read failed/,
   },
 
   // Protocol timeout failures
-  REQUEST_CONTENT_TIMEOUT: { message: ErrorMessages.requestContentTimeout }
+  REQUEST_CONTENT_TIMEOUT: { message: ErrorMessages.requestContentTimeout },
 };
 
-Object.keys(ERRORS).forEach(code => (ERRORS[code].code = code));
+Object.keys(ERRORS).forEach((code) => (ERRORS[code].code = code));
 
 /** @type {Object<string, LighthouseErrorDefinition>} */
 LighthouseError.errors = ERRORS;
