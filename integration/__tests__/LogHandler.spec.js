@@ -34,7 +34,8 @@ test('Should print error message into console', async () => {
   emitter.on('logEntry', log => {
     logEntry.push(log);
   });
-  await goto('https://www.reddit.com/');
+
+  await goto(location('./integration/__tests__/data/log.html'));
   const responseData = {
     level: expect.any(String),
     source: expect.any(String),
@@ -43,7 +44,13 @@ test('Should print error message into console', async () => {
     text: expect.any(String),
     timestamp: expect.any(Number)
   };
-  expect(logEntry[0]).toMatchObject(responseData);
+
+  expect(logEntry[0]).toMatchObject({
+    ...responseData,
+    source: 'network',
+    level: 'error',
+    url: 'http://localhost:8080/'
+  });
 });
 
 test('Should print console.log', async () => {
