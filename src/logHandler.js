@@ -1,5 +1,3 @@
-import { logger } from './helpers';
-
 class LogHandler {
   constructor(entryAdded, loadEventFired, runTime) {
     this._entryAdded = entryAdded;

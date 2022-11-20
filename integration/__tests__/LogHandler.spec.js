@@ -1,9 +1,8 @@
 jest.mock('../../src/helpers');
-import { openBrowser, goto, closeBrowser, diagnostics } from 'taiko';
-const { logConsoleInfo } = diagnostics;
-// eslint-disable-next-line import/named
-import { logger } from '../../src/helpers';
+import { closeBrowser, diagnostics, goto, openBrowser } from 'taiko';
 import path from 'path';
+
+const { logConsoleInfo } = diagnostics;
 
 jest.setTimeout(30000);
 beforeEach(async () => {
@@ -15,7 +14,7 @@ afterEach(async () => {
 });
 
 test('Should print unhandled exception message into console', async () => {
-  let fielPath = path.resolve(
+  let filePath = path.resolve(
     './integration/__tests__/data/unhandledException.html'
   );
   const error = [];
@@ -24,10 +23,10 @@ test('Should print unhandled exception message into console', async () => {
     error.push(e);
   });
 
-  await goto(path.join('file://', fielPath));
+  await goto(path.join('file://', filePath));
   let expectedMessage = `Error: Test unhandled exception
-    at throwsException (file://${fielPath}:4:19)
-    at file://${fielPath}:6:9`;
+    at throwsException (file://${filePath}:4:19)
+    at file://${filePath}:6:9`;
   expect(error[0].exception.description).toEqual(expectedMessage);
 });
 
@@ -55,8 +54,8 @@ test('Should print console.log', async () => {
   emitter.on('consoleLog', log => {
     consoleEvents.push(log);
   });
-  let fielPath = path.resolve('./integration/__tests__/data/console.html');
-  await goto(path.join('file://', fielPath));
+  let filePath = path.resolve('./integration/__tests__/data/console.html');
+  await goto(path.join('file://', filePath));
   const responseData = {
     type: expect.any(String),
     value: expect.any(String),

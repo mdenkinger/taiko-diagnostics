@@ -12,9 +12,9 @@ afterEach(async () => {
 });
 
 test('Should report css coverage', async () => {
-  let fielPath = path.resolve('./integration/__tests__/data/simple.html');
+  let filePath = path.resolve('./integration/__tests__/data/simple.html');
   await startCssTracing();
-  await goto(path.join('file://', fielPath));
+  await goto(path.join('file://', filePath));
   const coverage = await stopCssTracing();
   const responseData = {
     url: expect.any(String),
@@ -30,9 +30,9 @@ test('Should report css coverage', async () => {
 });
 
 test('Should report multiple css coberage', async () => {
-  let fielPath = path.resolve('./integration/__tests__/data/multiple.html');
+  let filePath = path.resolve('./integration/__tests__/data/multiple.html');
   await startCssTracing();
-  await goto(path.join('file://', fielPath));
+  await goto(path.join('file://', filePath));
   const coverage = await stopCssTracing();
   await prettyCSS(coverage);
   expect(coverage.length).toBe(3);

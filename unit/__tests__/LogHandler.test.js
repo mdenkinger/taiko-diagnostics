@@ -1,6 +1,4 @@
 jest.mock('../../src/helpers');
-// eslint-disable-next-line import/named
-import { logger } from '../../src/helpers';
 import LogHandler from '../../src/logHandler';
 
 let entryAdded,
