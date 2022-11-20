@@ -61,5 +61,12 @@
     "pretty-bytes": "^5.6.0",
     "speedline": "^1.4.3",
     "truncate-url": "^1.0.0"
+  },
+  "overrides": {
+    "glob-parent": ">=5.1.2",
+    "trim-newlines": ">=3.0.1 <4.0.0 || >=4.0.1",
+    "parse-path": ">=5.0.0",
+    "parse-url": ">=8.0.0",
+    "ansi-html": ">=0.0.8"
   }
 }
