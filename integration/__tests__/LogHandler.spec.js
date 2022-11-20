@@ -41,23 +41,50 @@ test('Should print error message into console', async () => {
   const responseData = {
     level: expect.any(String),
     source: expect.any(String),
-    url: expect.any(String)
+    url: expect.any(String),
+    networkRequestId: expect.any(String),
+    text: expect.any(String),
+    timestamp: expect.any(Number)
   };
-  expect(logEntry[0]).toEqual(responseData);
+  expect(logEntry[0]).toMatchObject(responseData);
 });
 
 test('Should print console.log', async () => {
-  const console = [];
+  const consoleEvents = [];
   const emitter = await logConsoleInfo();
   emitter.on('consoleLog', log => {
-    console.push(log);
+    consoleEvents.push(log);
   });
   let fielPath = path.resolve('./integration/__tests__/data/console.html');
   await goto(path.join('file://', fielPath));
   const responseData = {
     type: expect.any(String),
     value: expect.any(String),
-    url: expect.any(String)
+    url: expect.any(String),
+    args: expect.any(Array),
+    executionContextId: expect.any(Number),
+    stackTrace: expect.any(Object),
+    timestamp: expect.any(Number)
   };
-  expect(console[0]).toEqual(responseData);
+
+  expect(consoleEvents[0]).toMatchObject({
+    ...responseData,
+    type: 'log',
+    value: 'Testing..'
+  });
+  expect(consoleEvents[1]).toMatchObject({
+    ...responseData,
+    type: 'info',
+    value: 'Debug..'
+  });
+  expect(consoleEvents[2]).toMatchObject({
+    ...responseData,
+    type: 'warning',
+    value: 'Warning..'
+  });
+  expect(consoleEvents[3]).toMatchObject({
+    ...responseData,
+    type: 'error',
+    value: 'Error..'
+  });
 });

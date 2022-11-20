@@ -10,20 +10,25 @@ class LogHandler {
   logEntry(emitter) {
     this._entryAdded(({ entry }) => {
       emitter.emitObject('logEntry', {
-        level: entry.level,
-        source: entry.source,
-        url: entry.url
+        ...entry
       });
     });
 
     this._runTime.consoleAPICalled(params => {
       const [{ value }] = params.args;
       const [{ url }] = params.stackTrace.callFrames;
-      emitter.emitObject('consoleLog', { type: params.type, value, url });
+      emitter.emitObject('consoleLog', {
+        type: params.type,
+        value,
+        url,
+        ...params
+      });
     });
 
     this._runTime.exceptionThrown(({ exceptionDetails }) => {
-      emitter.emitObject('pageError', exceptionDetails);
+      emitter.emitObject('pageError', {
+        ...exceptionDetails
+      });
     });
     this._loadEventFired();
   }
